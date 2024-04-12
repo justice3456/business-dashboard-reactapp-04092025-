@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Popup from './Popup'; // Import the Popup component
+import axios from 'axios'; // Import axios
 
 function CustomerCard(props) {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to manage popup visibility
-  const [customerName, setCustomerName] = useState("Name");
+  const [customerName, setCustomerName] = useState(props.customerName);
+  const [phoneNumber, setPhoneNumber] = useState(props.phoneNumber);
+  const [totalPurchases, setTotalPurchases] = useState(props.totalPurchases);
 
   const openPopup = () => {
     setIsPopupOpen(true);
@@ -14,8 +17,45 @@ function CustomerCard(props) {
     setIsPopupOpen(false);
   };
 
-  const handleSave = (newName) => {
-    setCustomerName(newName);
+  const handleSave = ({ name, phoneNumber, totalPurchases }) => {
+    // Call the edit API to update the customer name and phone number
+    axios
+      .post("http://localhost:80/dashboard_api/edit_customer.php", {
+        customer_id: props.customerId,
+        customer_name: name,
+        phone_number: phoneNumber,
+        total_purchases: totalPurchases
+        
+      })
+      .then(function (response) {
+        console.log(response)
+        if (response.data.success) {
+          setCustomerName(name); // Update local state with the new name
+          setPhoneNumber(phoneNumber); // Update local state with the new phone number
+          setTotalPurchases(totalPurchases); // Update local state with the new total purchases
+          closePopup(); // Close the popup after successful save
+        } else {
+          console.error("Failed to edit customer record");
+        }
+      })
+      .catch(function (error) {
+        console.error("Error editing customer record:", error);
+      });
+  };
+
+  const handleDelete = () => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this customer?');
+    if (confirmDelete) {
+      axios
+        .post("http://localhost:80/dashboard_api/delete_customer_action.php", { customer_id: props.customerId })
+        .then(function (response) {
+
+          // Handle UI update after successful deletion (if needed)
+        })
+        .catch(function (error) {
+          console.error("Error deleting customer:", error);
+        });
+    }
   };
 
   return (
@@ -25,21 +65,21 @@ function CustomerCard(props) {
           <strong className="underline-text">Name:</strong> {customerName}
         </p>
         <p className="customer-name">
-          <strong className="underline-text">Date Added:</strong> {props.dateAdded}
+          <strong className="underline-text">Contact:</strong> {phoneNumber}
         </p>
         <p className="customer-name">
-          <strong className="underline-text">Total Purchase:</strong> {props.totalPurchases} items
+          <strong className="underline-text">Total Purchase:</strong> {totalPurchases} items
         </p>
         <button className="action-button" onClick={openPopup}>
           <img src="../images/edit.png" alt="Edit" />
         </button>
-        <button className="action-button">
+        <button className="action-button" onClick={handleDelete}>
           <img src="../images/delete.png" alt="Delete" />
         </button>
       </div>
       {isPopupOpen && (
         <Popup
-          initialValue={customerName}
+          initialValue={{ name: customerName, phoneNumber: phoneNumber, totalPurchases: totalPurchases }}
           onSave={handleSave}
           onClose={closePopup}
         />
@@ -47,5 +87,7 @@ function CustomerCard(props) {
     </>
   );
 }
+
+
 
 export default CustomerCard;

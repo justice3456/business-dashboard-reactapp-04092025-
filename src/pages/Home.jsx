@@ -3,7 +3,100 @@ import DashboardTexts from "../dashboard.components/DashboardTexts";
 import LeftMenu from "../dashboard.components/LeftMenu";
 import MediumCard from "../dashboard.components/MediumCard";
 import {  Link} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+
+
 export default function () {
+  const [inventoryValue, setInventoryValue] = useState();
+  const [sales, setSales] = useState();
+  const [salesTarget, setSalesTarget] = useState();
+  const [todaysSales, setTodaysSales] = useState();
+  const [progress, setProgress] = useState();
+  const [progressCircle, setProgressCircle] = useState();
+  const [profit, setProfit] = useState();
+
+
+    axios
+      .get("http://localhost:80/dashboard_api/sales_progress.php/")
+      .then(function (response) {
+        setSales(Number(response.data['total_sales']).toFixed(2));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+      axios
+      .get("http://localhost:80/dashboard_api/sum_all_inventory.php/")
+      .then(function (response) {
+        setInventoryValue(response.data['total_quantity']);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+      axios
+      .get("http://localhost:80/dashboard_api/get_sales_target.php/")
+      .then(function (response) {
+        setSalesTarget(response.data['sales_target']);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+      axios
+      .get("http://localhost:80/dashboard_api/todays_sales.php/")
+      .then(function (response) {
+        setTodaysSales(Number(response.data['todays_sales']).toFixed(2));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+      axios
+      .get("http://localhost:80/dashboard_api/sale_progress_calculations.php/")
+      .then(function (response) {
+         console.log(response);
+        setProgress(response.data[0]);
+        setProgressCircle(response.data[1]);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
+      // axios
+      // .get("http://localhost:80/dashboard_api/get_sales_target.php/")
+      // .then(function (response) {
+      //   console.log(response.data['total_quantity']);
+      //   setInventoryValue(response.data['total_quantity']);
+      // })
+      axios
+      .get("http://localhost:80/dashboard_api/profit.php/")
+      .then(function (response) {
+        setProfit(Number(response.data['total_profit']).toFixed(2));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+     
+      
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
   return (
     <>
       <DashboardTexts pageTitle="Dashboard" salesPerWeek="chart-description"/>
@@ -14,16 +107,17 @@ export default function () {
         {/** LEFT CARDS */}
         {/** SALES CARD */}
         
+        
         <Link to ="/Sales" style={{ textDecoration: 'none' }} className="link-style">
         <MediumCard
           cardPosition1="no-circle-header"
           cardPosition2="no-circle-header"
           classname="sales-card"
           cardName="Sales"
-          cardDescription="Total Sales This Week"
-          displayValue="GHC500"
+          cardDescription="Total Sales"
+          displayValue= {sales}
           cardPosition="progress-position-left"
-          percentage="65%"
+          percentage="GHC"
           position="sales-position"
           circleHeader="no-circle-header"
         />
@@ -37,9 +131,9 @@ export default function () {
           classname="inventory-card"
           cardName="Inventory"
           cardDescription="Inventory Remaining"
-          displayValue="GHC500"
+          displayValue= {inventoryValue} 
           cardPosition="progress-position-left"
-          percentage="65%"
+          percentage="Items"
           circleHeader="no-circle-header"
         />
         </Link>
@@ -50,16 +144,17 @@ export default function () {
         <MediumCard
           classname="profit-card"
           cardName="Profit"
+          circleControl = "current-control"
           circleHeader="card-price"
           cardDescription="Profit Stat Per Week "
-          displayValue="GHC700"
-          cardHeaderValue="Current &nbsp;&nbsp; Target &nbsp;&nbsp;&nbsp;&nbsp; Best"
+          displayValue= {"GHC" + profit}
+          cardHeaderValue="Progress &nbsp;&nbsp; Target &nbsp;&nbsp;&nbsp;&nbsp; Todays"
           cardPosition="progress-position-right"
-          percentage="75%"
+          percentage= {progress + "%"}
           cardPosition1="target-position"
-          percentage1="10000"
+          percentage1= {salesTarget}
           cardPosition2="best-position"
-          percentage2="700"
+          percentage2= {todaysSales}
         />
 
         {/**Target Circle */}

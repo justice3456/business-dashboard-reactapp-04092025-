@@ -1,15 +1,14 @@
-//imports
+// sales.components/SalesCard.jsx
+
 import PropTypes from "prop-types";
-import { useState} from "react";
+import { useState } from "react";
 import axios from "axios";
-//component
+
 function SalesCard(props) {
-
-
-  
-
-
-
+  const deleteSale = () => {
+    
+    props.onDelete(props.id);
+  };
 
   return (
     <>
@@ -18,18 +17,25 @@ function SalesCard(props) {
           <strong className="underline-text">Customer:</strong> {props.customerName}
         </p>
         <p className="customer-name">
-          <strong className="underline-text">Date Sold:</strong> {props.dateSold}
+          <strong className="underline-text">Item:</strong> {props.itemSold}
         </p>
         <p className="customer-name">
-          <strong className="underline-text">Total Items</strong> {props.itemsSold} items
+          <strong className="underline-text">Total Items:</strong> {props.quantity} items
         </p>
-        <button className="action-button">
+        <button className="action-button" onClick={deleteSale}>
           <img src="../images/delete.png" alt="Delete" />
         </button>
-
       </div>
     </>
   );
 }
+
+SalesCard.propTypes = {
+  id: PropTypes.string.isRequired,
+  customerName: PropTypes.string.isRequired,
+  itemSold: PropTypes.string.isRequired,
+  quantity: PropTypes.number.isRequired,
+  onDelete: PropTypes.func.isRequired,
+};
 
 export default SalesCard;

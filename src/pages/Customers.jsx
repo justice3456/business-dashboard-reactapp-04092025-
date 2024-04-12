@@ -1,16 +1,13 @@
-//imports
 import CustomerCard from "../customer.components/CustomerCard";
-import CustomerEditForm from "../customer.components/CustomerEditForm";
 import DashboardTexts from "../dashboard.components/DashboardTexts";
 import LeftMenu from "../dashboard.components/LeftMenu";
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import AddCustomer from './AddCustomer'; 
+import React, { useState, useEffect } from "react"; // Import useEffect for fetching data
+import AddCustomer from "./AddCustomer";
+import axios from "axios";
 
-//components
-export default function () {
+export default function CustomerPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to manage popup visibility
-  const [customerName, setCustomerName] = useState("Name");
+  const [data, setData] = useState([]);
 
   const openPopup = () => {
     setIsPopupOpen(true);
@@ -21,29 +18,52 @@ export default function () {
   };
 
   const handleSave = (newName) => {
-    setCustomerName(newName);
+    // Handle save logic (if needed)
   };
 
- 
+  const fetchData = () => {
+    axios
+      .get("http://localhost:80/dashboard_api/get_all_customers.php/")
+      .then(function (response) {
+        setData(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [isPopupOpen]); // Trigger fetch data when isPopupOpen changes
+
+  // Re-fetch data when data is updated after delete or edit
+  useEffect(() => {
+    fetchData();
+  }, [data]); 
 
   return (
     <>
-    <p className="add-inventory" onClick={openPopup}>Add + Customer</p>
-    <div>
-      <DashboardTexts pageTitle="Customers" salesPerWeek="display-off" />
-      <CustomerCard />
-      <CustomerCard />
-      <CustomerCard />
-      <LeftMenu />
-      <CustomerEditForm/>
-    </div>
+      <p className="add-inventory" onClick={openPopup}>
+        Add + Customer
+      </p>
+      <div>
+        <DashboardTexts pageTitle="Customers" salesPerWeek="display-off" />
 
-    {isPopupOpen && (
-        <AddCustomer
-          onSave={handleSave}
-          onClose={closePopup}
-        />
-      )}
+        {data.length > 0 &&
+          data.map((customer, index) => (
+            <CustomerCard
+              key={index}
+              customerId={customer.CustomerID}
+              customerName={customer.Customer_Name}
+              phoneNumber={customer.PhoneNumber}
+              totalPurchases={customer.TotalPurchases}
+            />
+          ))}
+
+        <LeftMenu />
+      </div>
+
+      {isPopupOpen && <AddCustomer onSave={handleSave} onClose={closePopup} />}
     </>
   );
 }

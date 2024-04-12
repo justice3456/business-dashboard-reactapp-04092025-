@@ -12,6 +12,7 @@ function MediumCard(props) {
         <p className={props.circleHeader}>{props.cardHeaderValue}</p>
         {/**CURRENT */}
         <div className={props.cardPosition}>
+          <div className={props.circleControl}>
           <div className="circle">
             <div className="percentage">{props.percentage}</div>
             <div className="imported-circle">
@@ -31,6 +32,7 @@ function MediumCard(props) {
               </svg>
             </div>
           </div>
+        </div>
         </div>
         {/**CURRENT */}
 

@@ -21,11 +21,11 @@ function Popup({ initialValue, initialNumber, onSave, onClose }) {
     console.log(inputs);
 
     axios
-      .post("http://localhost:80/dashboard_api/add_customer.php/", inputs)
+      .post("http://localhost:80/dashboard_api/add_inventory.php/", inputs)
       .then(function (response) {
         console.log(response);
-        if (response.data === 0) {
-          setSuccessMessage("Customer added successfully!");
+        if (response.data[0] === 0) {
+          setSuccessMessage("Item added successfully!");
           setErrorMessage("");
           setHideForm("turn-off");
           setTimeout(function() {
@@ -34,8 +34,8 @@ function Popup({ initialValue, initialNumber, onSave, onClose }) {
         } else if (response.data[0] === 1) {
           setErrorMessage("Failed to add customer");
           setSuccessMessage("");
-        } else if (response.data === 2) {
-          setErrorMessage("Customer already exists");
+        } else if (response.data[0] === 2) {
+          setErrorMessage(response.data[1] + " already exists");
           setSuccessMessage("");
         }
       })
@@ -53,29 +53,32 @@ function Popup({ initialValue, initialNumber, onSave, onClose }) {
     <div className="popup-overlay-vertical">
       <div className="sales-popup">
       <div className={hideForm}>
-        <p>Add Customer</p>
+        <p>Add Inventory</p>
         <button className="sales-close-button" onClick={onClose}>
           &times;
         </button>
 
         <form method="post" onSubmit={handleSubmit}>
           <input
-            placeholder="Customer Name"
+            placeholder="Item Name"
             type="text"
             id="nameInput"
-            name="nameInput"
+            name="itemName"
             value={name}
             onChange={handleChange}
-          />
+          /><br></br>
 
-          <input type="number" id="nameInput" name="numberInput" placeholder="Phone Number" onChange={handleChange} /><br></br>
+          <input type="number" id="nameInput" name="quantity" placeholder="Quantity" onChange={handleChange} /><br></br>
+          <input type="number" id="nameInput" name="costprice" placeholder="Cost Per Unit" onChange={handleChange} /><br></br>
+          <input type="number" id="nameInput" name="sellingprice" placeholder="Selling" onChange={handleChange} /><br></br>
+
 
           <button type="submit">Save</button>
         </form>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
 
       </div>
-      {successMessage === "Customer added successfully!" && (
+      {successMessage === "Item added successfully!" && (
         <SuccessPopup message={successMessage} />
       )}
     </div>

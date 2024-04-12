@@ -3,6 +3,11 @@ body {
   margin: 0px;
   font-family: 'Comfortaa', Arial, sans-serif;
 }
+
+.error-message {
+  color: rgb(251, 101, 101);
+}
+
 /**sucess message*/
 .sucess-message {
   color:#00cc00;
@@ -87,6 +92,7 @@ body {
 
 .link-style {
   color: black;
+  cursor:auto;
 }
 
 /** no page styling*/
@@ -129,7 +135,7 @@ body {
   position: absolute;
   display: flex;
   margin-left: 55dvw;
-  margin-top: 35dvh;
+  margin-top: 25dvh;
   margin-bottom: 0px;}
 
 .customer-page-title {
@@ -583,9 +589,17 @@ circle {
 
 @keyframes anim{
   100%{
-    stroke-dashoffset: 87;
+  stroke-dashoffset: 0;
   }
 }
+
+
+.current-control .circle {
+  animation: control-anim;
+}
+
+
+
 
 .progress-bar {
   display: flex;

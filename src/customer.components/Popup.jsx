@@ -1,17 +1,24 @@
-// Popup.js
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 function Popup({ initialValue, onSave, onClose }) {
-  const [name, setName] = useState(initialValue);
+  const [name, setName] = useState(initialValue.name);
+  const [phoneNumber, setPhoneNumber] = useState(initialValue.phoneNumber);
+  const [totalPurchases, setTotalPurchases] = useState(initialValue.totalPurchases);
 
   const handleChange = (event) => {
-    setName(event.target.value);
+    if (event.target.name === "newName") {
+      setName(event.target.value);
+    } else if (event.target.name === "newNumber") {
+      setPhoneNumber(event.target.value);
+    } else if (event.target.name === "newPurchases") {
+      setTotalPurchases(event.target.value);
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSave(name);
+    onSave({ name, phoneNumber, totalPurchases });
     onClose();
   };
 
@@ -22,11 +29,25 @@ function Popup({ initialValue, onSave, onClose }) {
           &times;
         </button>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="nameInput">Edit Name:</label>
           <input
+            placeholder="Edit Name"
             type="text"
-            id="nameInput"
+            name="newName"
             value={name}
+            onChange={handleChange}
+          />
+          <input
+            placeholder="Edit Number"
+            type="text"
+            name="newNumber"
+            value={phoneNumber}
+            onChange={handleChange}
+          />
+          <input
+            placeholder="Edit Purchases"
+            type="number"
+            name="newPurchases"
+            value={totalPurchases}
             onChange={handleChange}
           />
           <button type="submit">Save</button>
@@ -37,7 +58,7 @@ function Popup({ initialValue, onSave, onClose }) {
 }
 
 Popup.propTypes = {
-  initialValue: PropTypes.string.isRequired,
+  initialValue: PropTypes.object.isRequired,
   onSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };

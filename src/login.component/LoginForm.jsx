@@ -23,7 +23,7 @@ function LoginForm() {
     axios
       .post("http://localhost:80/dashboard_api/login.php/", inputs)
       .then(function (response) {
-        if (response.data == 1) {
+        if (response.data[0] == 1) {
           navigate("/Home");
         }
         if (response.data == 0) {
