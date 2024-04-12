@@ -4,6 +4,8 @@ body {
   font-family: 'Comfortaa', Arial, sans-serif;
 }
 
+
+
 .error-message {
   color: rgb(251, 101, 101);
 }
@@ -782,8 +784,28 @@ circle {
 }
 
 .user-name {
-  margin-left: 5dvw;  margin-top: 40dvh;
+  margin-left: 5dvw;  margin-top: 30dvh;
   font-size: 11px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.user-name:hover{
+  transform: scale(1.0001);
+  color:rgb(251, 101, 101);
+}
+
+.go-to-home {
+  margin-left: 10px;
+  color:rgb(78, 30, 134);
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.go-to-home:hover{
+  transform: scale(1.05);
+  color: rgb(12, 20, 0);
 
 }
 /** LEFT MENU*/

@@ -10,6 +10,9 @@ function Popup({ initialValue, initialNumber, onSave, onClose }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [hideForm, setHideForm] = useState("");
 
+ 
+  
+
   const handleChange = (event) => {
     const targetname = event.target.name;
     const value = event.target.value;
@@ -19,7 +22,8 @@ function Popup({ initialValue, initialNumber, onSave, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
-
+    const user_id = localStorage.getItem('user_id');
+    inputs.user_id = user_id;
     axios
       .post("http://localhost:80/dashboard_api/add_customer.php/", inputs)
       .then(function (response) {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { useNavigate} from "react-router-dom";
 
 function Popup({ initialValue, initialNumber, onSave, onClose }) {
   const [name, setName] = useState(initialValue);
@@ -8,6 +9,14 @@ function Popup({ initialValue, initialNumber, onSave, onClose }) {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [hideForm, setHideForm] = useState("")
+
+  const navigate = useNavigate();
+
+
+  if (!localStorage.getItem('user_id')){
+    navigate("/NoPage");
+  }
+  
 
   const handleChange = (event) => {
     const targetname = event.target.name;
@@ -18,7 +27,8 @@ function Popup({ initialValue, initialNumber, onSave, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
-
+    const user_id = localStorage.getItem('user_id');
+    inputs.user_id = user_id;
     axios
       .post("http://localhost:80/dashboard_api/make_sale.php/", inputs)
       .then(function (response) {

@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useNavigate } from "react-router-dom";
 
 function LeftMenu(props) {
   const [activeLink, setActiveLink] = useState(null);
-
+  const navigate = useNavigate();
   const handleLinkClick = (link) => {
     setActiveLink(link);
   };
 
+function handleLogout () {
+  localStorage.clear();
+  
+  navigate("/Login");
+
+
+}
+
   return (
+
     <div className="left-menu">
       <h1 className="app-name">SSB Dashboard</h1>
       <div className="left-menu-items">
@@ -65,7 +75,7 @@ function LeftMenu(props) {
           </p>
         </Link>
       </div>
-      <p className="user-name">{props.user_name}</p>
+      <p className="user-name" onClick={handleLogout}>Logout</p>
     </div>
   );
 }

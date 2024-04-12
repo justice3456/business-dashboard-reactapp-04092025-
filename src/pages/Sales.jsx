@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import MakeSale from "./MakeSale";
 import axios from "axios";
 import Popup from "../sales.components/Popup";
-
+import { useNavigate} from "react-router-dom";
 export default function SalesPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [targetPopUp, setTargetPopUp] = useState(false);
@@ -34,25 +34,25 @@ export default function SalesPage() {
   const handleSave = (newName) => {};
 
   const deleteSale = (saleId) => {
-    // Call the backend API to delete the sale record
-    axios
-      .post("http://localhost:80/dashboard_api/delete_sale_action.php", { sale_id: saleId })
-      .then(function (response) {
-        console.log(response.data)
-        if (response.data.success) {
-          // If deletion successful, filter out the sale card with the given ID
-          const newData = data.filter((sale) => sale.id !== saleId);
-          setData(newData);
-          setDeleteValue(prevValue => !prevValue); // Update deleteValue state
-        } else {
-          console.error("Failed to delete sale record");
-        }
-      })
-      .catch(function (error) {
-        console.error("Error deleting sale record:", error);
-      });
-  };
-  
+  // Call the backend API to delete the sale record
+  axios
+    .post("http://localhost:80/dashboard_api/delete_sale_action.php", { sale_id: saleId })
+    .then(function (response) {
+      console.log(response.data)
+      if (response.data.success) {
+        // If deletion successful, filter out the sale card with the given ID
+        const newData = data.filter((sale) => sale.id !== saleId);
+        setData(newData);
+        setDeleteValue(prevValue => !prevValue); // Update deleteValue state
+      } else {
+        console.error("Failed to delete sale record");
+      }
+    })
+    .catch(function (error) {
+      console.error("Error deleting sale record:", error);
+    });
+};
+
   useEffect(() => {
     axios
       .get("http://localhost:80/dashboard_api/get_all_sales.php/")

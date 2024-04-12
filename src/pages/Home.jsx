@@ -2,13 +2,15 @@ import Chart from "../dashboard.components/Chart";
 import DashboardTexts from "../dashboard.components/DashboardTexts";
 import LeftMenu from "../dashboard.components/LeftMenu";
 import MediumCard from "../dashboard.components/MediumCard";
-import {  Link} from "react-router-dom";
+import {  Link, useNavigate} from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 
 
+
 export default function () {
+  const navigate = useNavigate();
   const [inventoryValue, setInventoryValue] = useState();
   const [sales, setSales] = useState();
   const [salesTarget, setSalesTarget] = useState();
@@ -17,9 +19,17 @@ export default function () {
   const [progressCircle, setProgressCircle] = useState();
   const [profit, setProfit] = useState();
 
+  if (!localStorage.getItem('user_id')){
+    
+    navigate("/Login");
+  }
 
-    axios
-      .get("http://localhost:80/dashboard_api/sales_progress.php/")
+
+  const user_id = localStorage.getItem('user_id');
+  axios
+    .get("http://localhost:80/dashboard_api/sales_progress.php/", {
+      params: { user_id: user_id } 
+    })
       .then(function (response) {
         setSales(Number(response.data['total_sales']).toFixed(2));
       })
@@ -28,7 +38,10 @@ export default function () {
       });
 
       axios
-      .get("http://localhost:80/dashboard_api/sum_all_inventory.php/")
+      .get("http://localhost:80/dashboard_api/sum_all_inventory.php/", {
+        params: { user_id: user_id } 
+      })
+ 
       .then(function (response) {
         setInventoryValue(response.data['total_quantity']);
       })
@@ -37,7 +50,9 @@ export default function () {
       });
 
       axios
-      .get("http://localhost:80/dashboard_api/get_sales_target.php/")
+      .get("http://localhost:80/dashboard_api/get_sales_target.php/", {
+        params: { user_id: user_id } 
+      })
       .then(function (response) {
         setSalesTarget(response.data['sales_target']);
       })
@@ -46,7 +61,9 @@ export default function () {
       });
 
       axios
-      .get("http://localhost:80/dashboard_api/todays_sales.php/")
+      .get("http://localhost:80/dashboard_api/todays_sales.php/", {
+        params: { user_id: user_id } 
+      })
       .then(function (response) {
         setTodaysSales(Number(response.data['todays_sales']).toFixed(2));
       })

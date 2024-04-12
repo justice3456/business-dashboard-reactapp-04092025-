@@ -1,10 +1,12 @@
 //imports
-import { useState} from "react";
+import { useRef, useState} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 //components
 function LoginForm() {
+
+
   const [inputs, setInputs] = useState({});
   const [notMatchText, setNotMatchText] = useState("turn-off");
   const navigate = useNavigate();
@@ -24,6 +26,9 @@ function LoginForm() {
       .post("http://localhost:80/dashboard_api/login.php/", inputs)
       .then(function (response) {
         if (response.data[0] == 1) {
+          console.log(response.data[1])
+          localStorage.setItem("user_id", response.data[1] )
+
           navigate("/Home");
         }
         if (response.data == 0) {

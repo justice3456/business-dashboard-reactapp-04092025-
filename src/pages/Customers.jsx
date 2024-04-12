@@ -4,10 +4,19 @@ import LeftMenu from "../dashboard.components/LeftMenu";
 import React, { useState, useEffect } from "react"; // Import useEffect for fetching data
 import AddCustomer from "./AddCustomer";
 import axios from "axios";
+import { useNavigate} from "react-router-dom";
 
 export default function CustomerPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to manage popup visibility
   const [data, setData] = useState([]);
+  const [inputs, seInputs] = useState({});
+
+  const navigate = useNavigate();
+
+
+  if (!localStorage.getItem('user_id')){
+    navigate("/NoPage");
+  }
 
   const openPopup = () => {
     setIsPopupOpen(true);
@@ -22,8 +31,11 @@ export default function CustomerPage() {
   };
 
   const fetchData = () => {
+    const user_id = localStorage.getItem('user_id');
     axios
-      .get("http://localhost:80/dashboard_api/get_all_customers.php/")
+      .get("http://localhost:80/dashboard_api/get_all_customers.php/", {
+        params: { user_id: user_id } 
+      })
       .then(function (response) {
         setData(response.data);
       })
@@ -31,6 +43,7 @@ export default function CustomerPage() {
         console.log(error);
       });
   };
+  
 
   useEffect(() => {
     fetchData();

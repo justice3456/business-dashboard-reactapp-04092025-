@@ -6,11 +6,19 @@ import React, { useState,useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AddInventory from './AddInventory';
 import axios from "axios";
-
+import { useNavigate} from "react-router-dom";
 //components
 export default function () {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to manage popup visibility
   const [data, setData] = useState([]);
+
+  const navigate = useNavigate();
+
+
+  if (!localStorage.getItem('user_id')){
+    navigate("/NoPage");
+  }
+
   const openPopup = () => {
     setIsPopupOpen(true);
   };
@@ -25,8 +33,11 @@ export default function () {
 
 
   useEffect(() => {
+    const user_id = localStorage.getItem('user_id');
     axios
-      .get("http://localhost:80/dashboard_api/get_all_inventory.php/")
+      .get("http://localhost:80/dashboard_api/get_all_inventory.php/", {
+        params: { user_id: user_id } // Pass user_id as a query parameter
+      })
       .then(function (response) {
         setData(response.data);
       })
