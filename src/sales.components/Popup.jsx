@@ -21,6 +21,9 @@ function Popup({ initialValue, initialQuantity, onSave, onClose }) {
     e.preventDefault();
     console.log(inputs);
 
+
+    const user_id = localStorage.getItem('user_id');
+    inputs.user_id = user_id;
     axios
       .post("http://localhost:80/dashboard_api/set_target.php/", inputs)
       .then(function (response) {

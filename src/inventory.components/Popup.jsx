@@ -1,20 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import SuccessPopup from "../pages/SuccessPopUp";
-
-function Popup({ initialValue, onSave, onClose }) {
+import { useNavigate} from "react-router-dom";
+function Popup({ initialValue, quantity, price, onSave, onClose }) {
   const [itemName, setItemName] = useState(initialValue);
-  const [inputs, setInputs] = useState({});
+  
+  const navigate = useNavigate();
+
+  const [inputs, setInputs] = useState({
+    itemName: initialValue,
+    quantity: quantity,
+    price: price,
+    itemNamePlaceholder: initialValue,
+  });
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [hideForm, setHideForm] = useState("");
-
   const handleChange = (event) => {
-    const targetName = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [targetName]: value }));
+    const { name, value } = event.target;
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      [name]: value,
+    }));
   };
+
+  function reFresh(){
+    window.location.reload()
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,14 +36,16 @@ function Popup({ initialValue, onSave, onClose }) {
     axios
       .post("http://localhost:80/dashboard_api/edit_inventory.php", inputs)
       .then(function (response) {
-        console.log(response.data.success);
-        if (response.data.success) {
+        if (response.data['success']) {
           setSuccessMessage("Item updated successfully!");
           setErrorMessage("");
           setHideForm("turn-off");
+          
           setTimeout(() => {
-            onClose(); // Close the popup after successful update
+            onClose();
+            reFresh();
           }, 1200);
+          
         } else {
           setErrorMessage("Failed to update item");
           setSuccessMessage("");
@@ -43,11 +58,14 @@ function Popup({ initialValue, onSave, onClose }) {
       });
   };
 
+
+ 
+
   return (
     <div className="popup-overlay-vertical">
       <div className="sales-popup">
         <div className={hideForm}>
-          <p>Update {itemName}</p>
+          <p>Update {initialValue}</p>
           <button className="sales-close-button" onClick={onClose}>
             &times;
           </button>
@@ -56,19 +74,32 @@ function Popup({ initialValue, onSave, onClose }) {
             <input
               type="text"
               name="itemName"
-              value={itemName}
+              value={inputs.itemName}
+              placeholder={inputs.itemNamePlaceholder}
               onChange={handleChange}
-              readOnly // Make the input read-only
-            /><br></br>
+              required
+            />
+            <br />
 
             <input
               type="number"
               name="quantity"
-              placeholder="Quantity"
-              value={inputs.quantity || ""}
+              value={inputs.quantity}
+              placeholder={quantity}
               onChange={handleChange}
-            /><br></br>
-            
+              required
+            />
+            <br />
+
+            <input
+              type="number"
+              name="price"
+              value={inputs.price}
+              placeholder={price}
+              onChange={handleChange}
+              required
+            />
+            <br />
 
             <button type="submit">Save</button>
           </form>
@@ -82,10 +113,5 @@ function Popup({ initialValue, onSave, onClose }) {
   );
 }
 
-Popup.propTypes = {
-  initialValue: PropTypes.string.isRequired,
-  onSave: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-};
 
 export default Popup;

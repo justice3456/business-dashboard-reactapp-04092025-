@@ -80,8 +80,6 @@ function handleLogout () {
   );
 }
 
-LeftMenu.propTypes = {
-  user_name: PropTypes.string.isRequired,
-};
+
 
 export default LeftMenu;

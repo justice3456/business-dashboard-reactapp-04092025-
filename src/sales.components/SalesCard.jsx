@@ -30,12 +30,6 @@ function SalesCard(props) {
   );
 }
 
-SalesCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  customerName: PropTypes.string.isRequired,
-  itemSold: PropTypes.string.isRequired,
-  quantity: PropTypes.number.isRequired,
-  onDelete: PropTypes.func.isRequired,
-};
+
 
 export default SalesCard;

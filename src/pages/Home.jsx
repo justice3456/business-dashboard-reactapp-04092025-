@@ -54,6 +54,7 @@ export default function () {
         params: { user_id: user_id } 
       })
       .then(function (response) {
+        console.log(response);
         setSalesTarget(response.data['sales_target']);
       })
       .catch(function (error) {
@@ -72,7 +73,9 @@ export default function () {
       });
 
       axios
-      .get("http://localhost:80/dashboard_api/sale_progress_calculations.php/")
+      .get("http://localhost:80/dashboard_api/sale_progress_calculations.php/", {
+        params: { user_id: user_id } 
+      })
       .then(function (response) {
          console.log(response);
         setProgress(response.data[0]);
@@ -90,8 +93,11 @@ export default function () {
       //   setInventoryValue(response.data['total_quantity']);
       // })
       axios
-      .get("http://localhost:80/dashboard_api/profit.php/")
+      .get("http://localhost:80/dashboard_api/profit.php/", {
+        params: { user_id: user_id } 
+      })
       .then(function (response) {
+        console.log(response)
         setProfit(Number(response.data['total_profit']).toFixed(2));
       })
       .catch(function (error) {

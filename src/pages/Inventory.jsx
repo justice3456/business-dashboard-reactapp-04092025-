@@ -44,7 +44,7 @@ export default function () {
       .catch(function (error) {
         console.log(error);
       });
-  }, [isPopupOpen]); 
+  }, [isPopupOpen || data ]); 
 
   return (
     <>
@@ -58,7 +58,7 @@ export default function () {
               key={index}
               itemName={item.ItemName}
               quantity={item.Quantity}
-              lastUpdated={item.LastUpdated}
+              price={item.SellingPrice}
             />
           ))}
      

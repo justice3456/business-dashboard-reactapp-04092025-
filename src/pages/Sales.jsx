@@ -38,7 +38,6 @@ export default function SalesPage() {
   axios
     .post("http://localhost:80/dashboard_api/delete_sale_action.php", { sale_id: saleId })
     .then(function (response) {
-      console.log(response.data)
       if (response.data.success) {
         // If deletion successful, filter out the sale card with the given ID
         const newData = data.filter((sale) => sale.id !== saleId);
@@ -57,7 +56,6 @@ export default function SalesPage() {
     axios
       .get("http://localhost:80/dashboard_api/get_all_sales.php/")
       .then(function (response) {
-        console.log(response.data);
         setData(response.data);
       })
       .catch(function (error) {
