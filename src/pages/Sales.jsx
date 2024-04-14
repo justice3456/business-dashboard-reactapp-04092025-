@@ -33,7 +33,7 @@ export default function SalesPage() {
 
   const deleteSale = (saleId) => {
     axios
-      .post("http://localhost:80/dashboard_api/delete_sale_action.php", {
+      .post("http://51.120.240.118/dashboard_api/delete_sale_action.php", {
         sale_id: saleId
       })
       .then(function (response) {
@@ -53,7 +53,7 @@ export default function SalesPage() {
   useEffect(() => {
     const user_id = localStorage.getItem("user_id");
     axios
-      .get("http://localhost:80/dashboard_api/get_all_sales.php/", {
+      .get("http://51.120.240.118/dashboard_api/get_all_sales.php/", {
         params: { user_id: user_id }
       })
       .then(function (response) {

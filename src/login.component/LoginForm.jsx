@@ -23,7 +23,7 @@ function LoginForm() {
 
 
     axios
-      .post("http://localhost:80/dashboard_api/login.php/", inputs)
+      .post("http://51.120.240.118/dashboard_api/login.php/", inputs)
       .then(function (response) {
         if (response.data[0] == 1) {
           console.log(response.data[1])
@@ -49,6 +49,8 @@ function LoginForm() {
             className="email-field"
             type="email"
             name="email"
+            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" 
+            title="Please enter a valid email address"
             placeholder="Email "
             required
             onChange={handleChange}
@@ -71,7 +73,7 @@ function LoginForm() {
       </div>
       <img
         className="login-image-comp"
-        src="../images/meeting.image2.1.png"
+        src="/images/meeting.image2.1.png"
       ></img>
     </>
   );

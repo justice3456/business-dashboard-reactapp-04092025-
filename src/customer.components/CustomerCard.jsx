@@ -20,7 +20,7 @@ function CustomerCard(props) {
   const handleSave = ({ name, phoneNumber, totalPurchases }) => {
     // Call the edit API to update the customer name and phone number
     axios
-      .post("http://localhost:80/dashboard_api/edit_customer.php", {
+      .post("http://51.120.240.118/dashboard_api/edit_customer.php", {
         customer_id: props.customerId,
         customer_name: name,
         phone_number: phoneNumber,
@@ -47,7 +47,7 @@ function CustomerCard(props) {
     const confirmDelete = window.confirm('Are you sure you want to delete this customer?');
     if (confirmDelete) {
       axios
-        .post("http://localhost:80/dashboard_api/delete_customer_action.php", { customer_id: props.customerId })
+        .post("http://51.120.240.118/dashboard_api/delete_customer_action.php", { customer_id: props.customerId })
         .then(function (response) {
 
           // Handle UI update after successful deletion (if needed)
@@ -65,7 +65,7 @@ function CustomerCard(props) {
           <strong className="underline-text">Name:</strong> {customerName}
         </p>
         <p className="customer-name">
-          <strong className="underline-text">Contact:</strong> {phoneNumber}
+          <strong className="underline-text" pattern="[0-9]{10}" title="Please enter a 10-digit phone number">Contact:</strong> {phoneNumber}
         </p>
         <p className="customer-name">
           <strong className="underline-text">Total Purchase:</strong> {totalPurchases} items

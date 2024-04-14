@@ -36,7 +36,7 @@ function RegisterForm() {
     console.log(inputs);
 
     axios
-      .post("http://localhost:80/dashboard_api/user/index.php/save", inputs)
+      .post("http://51.120.240.118/dashboard_api/index.php/", inputs)
       .then(function (response) {
         console.log(response.data);
         if (response.data == 1) {
@@ -82,6 +82,8 @@ function RegisterForm() {
             name="email"
             type="email"
             placeholder="Email "
+            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" 
+            title="Please enter a valid email address"
             required
             onChange={handleChange}
           ></input>

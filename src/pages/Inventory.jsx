@@ -35,7 +35,7 @@ export default function () {
   useEffect(() => {
     const user_id = localStorage.getItem('user_id');
     axios
-      .get("http://localhost:80/dashboard_api/get_all_inventory.php/", {
+      .get("http://51.120.240.118/dashboard_api/get_all_inventory.php/", {
         params: { user_id: user_id } // Pass user_id as a query parameter
       })
       .then(function (response) {

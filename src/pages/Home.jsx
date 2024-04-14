@@ -27,7 +27,7 @@ export default function () {
 
   const user_id = localStorage.getItem('user_id');
   axios
-    .get("http://localhost:80/dashboard_api/sales_progress.php/", {
+    .get("http://51.120.240.118/dashboard_api/sales_progress.php/", {
       params: { user_id: user_id } 
     })
       .then(function (response) {
@@ -38,7 +38,7 @@ export default function () {
       });
 
       axios
-      .get("http://localhost:80/dashboard_api/sum_all_inventory.php/", {
+      .get("http://51.120.240.118/dashboard_api/sum_all_inventory.php/", {
         params: { user_id: user_id } 
       })
  
@@ -50,7 +50,7 @@ export default function () {
       });
 
       axios
-      .get("http://localhost:80/dashboard_api/get_sales_target.php/", {
+      .get("http://51.120.240.118/dashboard_api/get_sales_target.php/", {
         params: { user_id: user_id } 
       })
       .then(function (response) {
@@ -62,7 +62,7 @@ export default function () {
       });
 
       axios
-      .get("http://localhost:80/dashboard_api/todays_sales.php/", {
+      .get("http://51.120.240.118/dashboard_api/todays_sales.php/", {
         params: { user_id: user_id } 
       })
       .then(function (response) {
@@ -73,7 +73,7 @@ export default function () {
       });
 
       axios
-      .get("http://localhost:80/dashboard_api/sale_progress_calculations.php/", {
+      .get("http://51.120.240.118/dashboard_api/sale_progress_calculations.php/", {
         params: { user_id: user_id } 
       })
       .then(function (response) {
@@ -93,7 +93,7 @@ export default function () {
       //   setInventoryValue(response.data['total_quantity']);
       // })
       axios
-      .get("http://localhost:80/dashboard_api/profit.php/", {
+      .get("http://51.120.240.118/dashboard_api/profit.php/", {
         params: { user_id: user_id } 
       })
       .then(function (response) {
@@ -169,7 +169,7 @@ export default function () {
           cardName="Profit"
           circleControl = "current-control"
           circleHeader="card-price"
-          cardDescription="Profit Stat Per Week "
+          cardDescription="Profit"
           displayValue= {"GHC" + profit}
           cardHeaderValue="Progress &nbsp;&nbsp; Target &nbsp;&nbsp;&nbsp;&nbsp; Todays"
           cardPosition="progress-position-right"
@@ -177,7 +177,7 @@ export default function () {
           cardPosition1="target-position"
           percentage1= {salesTarget}
           cardPosition2="best-position"
-          percentage2= {todaysSales}
+          percentage2= {sales}
         />
 
         {/**Target Circle */}

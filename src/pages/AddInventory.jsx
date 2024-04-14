@@ -22,7 +22,7 @@ function Popup({ initialValue, initialNumber, onSave, onClose }) {
     const user_id = localStorage.getItem('user_id');
     inputs.user_id = user_id;
     axios
-      .post("http://localhost:80/dashboard_api/add_inventory.php/", inputs)
+      .post("http://51.120.240.118/dashboard_api/add_inventory.php/", inputs)
       .then(function (response) {
         console.log(response);
         if (response.data[0] === 0) {

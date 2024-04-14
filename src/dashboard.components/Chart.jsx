@@ -10,7 +10,7 @@ function Chart() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:80/dashboard_api/chart_data.php/")
+      .get("http://51.120.240.118/dashboard_api/chart_data.php/")
       .then(function (response) {
         setY_Axis(response.data.map(entry => entry.total_sales));
         setX_Axis(response.data.map(entry => entry.sale_date));

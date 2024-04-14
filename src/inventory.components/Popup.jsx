@@ -34,7 +34,7 @@ function Popup({ initialValue, quantity, price, onSave, onClose }) {
     console.log(inputs);
 
     axios
-      .post("http://localhost:80/dashboard_api/edit_inventory.php", inputs)
+      .post("http://51.120.240.118/dashboard_api/edit_inventory.php", inputs)
       .then(function (response) {
         if (response.data['success']) {
           setSuccessMessage("Item updated successfully!");

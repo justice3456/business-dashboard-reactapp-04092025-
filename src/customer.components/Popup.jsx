@@ -40,6 +40,8 @@ function Popup({ initialValue, onSave, onClose }) {
             placeholder="Edit Number"
             type="text"
             name="newNumber"
+            pattern="[0-9]{10}" 
+            title="Please enter a 10-digit phone number"
             value={phoneNumber}
             onChange={handleChange}
           />

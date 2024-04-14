@@ -47,7 +47,7 @@ function InventoryCard(props) {
     const confirmDelete = window.confirm('Are you sure you want to delete this item?');
     if (confirmDelete) {
       axios
-        .post("http://localhost:80/dashboard_api/delete_inventory.php", { new_name: itemName }) 
+        .post("http://51.120.240.118/dashboard_api/delete_inventory.php", { new_name: itemName }) 
         .then(function (response) {
           console.log(response.data['success']);
         })

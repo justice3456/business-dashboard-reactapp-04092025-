@@ -32,7 +32,7 @@ function handleLogout () {
           onClick={() => handleLinkClick('/Home')}
         >
           <p>
-            <img src="../images/home.png" alt="Home"></img>Home
+            <img src="/images/home.png" alt="Home"></img>Home
           </p>
         </Link>
 
@@ -45,7 +45,7 @@ function handleLogout () {
           onClick={() => handleLinkClick('/Customers')}
         >
           <p>
-            <img src="../images/customers.png" alt="Customers"></img>Customers
+            <img src="/images/customers.png" alt="Customers"></img>Customers
           </p>
         </Link>
 
@@ -58,7 +58,7 @@ function handleLogout () {
           onClick={() => handleLinkClick('/Inventory')}
         >
           <p>
-            <img src="../images/inventory.png" alt="Inventory"></img>Inventory
+            <img src="/images/inventory.png" alt="Inventory"></img>Inventory
           </p>
         </Link>
 
@@ -71,7 +71,7 @@ function handleLogout () {
           onClick={() => handleLinkClick('/Sales')}
         >
           <p>
-            <img src="../images/sales.png" alt="Sales"></img>Sales
+            <img src="/images/sales.png" alt="Sales"></img>Sales
           </p>
         </Link>
       </div>
