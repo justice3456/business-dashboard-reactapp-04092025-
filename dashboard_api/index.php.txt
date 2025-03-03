@@ -1,0 +1,1 @@
+index.php is the backend for register form
