@@ -1,5 +1,6 @@
 <?php 
 	class DbConnect {
+		//using xampp for local testing
 		private $server = 'localhost';
 		private $dbname = 'business_dashboard';
 		private $user = 'root';
